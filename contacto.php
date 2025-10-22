@@ -1,4 +1,5 @@
 <?php include("database.php"); ?>
+<!--Conexion a la base de datos importada-->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -46,9 +47,9 @@
             $stmt->bind_param("sss", $nombre, $correo, $mensaje);
 
             if($stmt->execute()){
-                echo "<p class='success'>✅ Mensaje enviado correctamente</p>";
+                echo "<p class='success'> Mensaje enviado correctamente</p>";
             } else {
-                echo "<p class='error'>❌ Error: ".htmlspecialchars($stmt->error)."</p>";
+                echo "<p class='error'> Error: ".htmlspecialchars($stmt->error)."</p>";
             }
 
             $stmt->close();

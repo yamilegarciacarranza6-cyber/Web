@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-
+    <!--Header incluido de forma concatenada-->
     <?php include("header.php"); ?>
 
 <main>
@@ -28,7 +28,7 @@
         <article class="tarjeta">
             <h3>Contacto</h3>
             <p>📍 Dirección: Av. Madero #123, CDMX</p>
-            <p>📞 Tel: 55-1234-5678 | ✉ contacto@elbuentaco.com</p>
+            <p> Tel: 55-1234-5678 | ✉ contacto@elbuentaco.com</p>
         </article>
     </section>
 </main>

@@ -37,7 +37,7 @@ include("database.php"); // Conexión a la base de datos
             ?>
         </section>
     </main>
-
+    <!-- Footer incluido de forma concatenada -->
     <?php include("footer.php"); ?>
 
 </body>

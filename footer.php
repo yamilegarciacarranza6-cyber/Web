@@ -1,4 +1,5 @@
 <footer>
+<!--validador de CSS y HTML-->
     <p>© 2025 Taquería El Buen Taco. Todos los derechos reservados.</p>
     <p style="text-align:center; margin-top:10px;">
         <a href="https://validator.w3.org/check?uri=referer">
