@@ -35,3 +35,13 @@
             h1 {
             text-align: center;
         }
+
+        .error-validacion {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .campo-error {
+            border-color: red;
+        }

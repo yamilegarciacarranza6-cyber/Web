@@ -35,5 +35,8 @@ $producto = $res->fetch_assoc();
 
         <button type="submit" name="actualizar">Actualizar</button>
     </form>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
+    <script src="js/validaciones.js"></script>
 </body>
 </html>

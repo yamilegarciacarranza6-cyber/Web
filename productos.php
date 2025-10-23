@@ -30,7 +30,7 @@ include("database.php");
                     echo "<p><b>Categoría:</b> ".$row['categoria']."</p>";
                     echo "<p>".$row['descripcion']."</p>";
                     echo "<p><b>Precio:</b> $".$row['precio']."</p>";
-                    echo "<a href='editar_producto.php?id=".$row['id']."' class='btn-editar'>✏️ Editar</a> ";
+                    echo "<a href='formularioEditar_producto.php?id=".$row['id']."' class='btn-editar'>✏️ Editar</a> ";
                     echo "<a href='procesar_producto.php?eliminar=".$row['id']."' class='btn-eliminar' onclick='return confirm(\"¿Seguro que quieres eliminar este producto?\");'>🗑 Eliminar</a>";
                     echo "</div>";
                 }
@@ -48,5 +48,8 @@ include("database.php");
 </main>
 
     <?php include("footer.php"); ?>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
