@@ -1,55 +1,67 @@
 <?php
-// Conexión a la base de datos
 include("database.php");
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Taquería El Buen Taco</title>
-    <link rel="stylesheet" href="estilos.css">
+  <meta charset="UTF-8">
+  <title>Menú - Taquería El Buen Taco</title>
+  <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-    <?php include("header.php"); ?>
 
-<main>
+  <?php include("header.php"); ?>
+
+  <main>
     <section class="Menu-section">
-        <h1>Menú</h1>
+      <h1>Menú</h1>
 
-        <div class="contenedor">
-            <?php
-            // Consulta todos los productos
-            $sql = "SELECT * FROM productos";
-            $res = $conn->query($sql);
+      <div class="contenedor" id="productos-container">
+        <?php
+        $sql = "SELECT * FROM productos ORDER BY id DESC";
+        $res = $conn->query($sql);
 
-            if ($res->num_rows > 0) {
-                while ($row = $res->fetch_assoc()) {
-                    echo "<div class='producto'>";
-                    echo "<img src='img/".$row['imagen']."' width='180' alt='".$row['nombre']."'>";
-                    echo "<h2>".$row['nombre']."</h2>";
-                    echo "<p><b>Categoría:</b> ".$row['categoria']."</p>";
-                    echo "<p>".$row['descripcion']."</p>";
-                    echo "<p><b>Precio:</b> $".$row['precio']."</p>";
-                    echo "<a href='formularioEditar_producto.php?id=".$row['id']."' class='btn-editar'>✏️ Editar</a> ";
-                    echo "<a href='procesar_producto.php?eliminar=".$row['id']."' class='btn-eliminar' onclick='return confirm(\"¿Seguro que quieres eliminar este producto?\");'>🗑 Eliminar</a>";
-                    echo "</div>";
-                }
-            } else {
-                echo "<p>No hay productos disponibles.</p>";
+        if ($res && $res->num_rows > 0) {
+            while ($row = $res->fetch_assoc()) {
+                $id = (int)$row['id'];
+                $nombre = htmlspecialchars($row['nombre'], ENT_QUOTES, 'UTF-8');
+                $categoria = htmlspecialchars($row['categoria'], ENT_QUOTES, 'UTF-8');
+                $descripcion = htmlspecialchars($row['descripcion'], ENT_QUOTES, 'UTF-8');
+                $precio = number_format($row['precio'], 2);
+                $imagen = htmlspecialchars($row['imagen'], ENT_QUOTES, 'UTF-8');
+        ?>
+                <article class="producto" data-id="<?= $id ?>">
+                    <img src="img/<?= $imagen ?>" alt="<?= $nombre ?>" class="producto-img" width="180">
+                    <h2 class="nombre"><?= $nombre ?></h2>
+                    <p class="categoria"><b>Categoría:</b> <?= $categoria ?></p>
+                    <p class="descripcion"><?= $descripcion ?></p>
+                    <p class="precio"><b>Precio:</b> $<?= $precio ?></p>
+
+                    <div class="acciones">
+                        <a href="formularioEditar_producto.php?id=<?= $id ?>" class="btn btn-editar">✏️ Editar</a>
+
+                        <form method="POST" action="procesar_producto.php" onsubmit="return confirm('¿Seguro que deseas eliminar este producto?');" style="display:inline;">
+                            <input type="hidden" name="eliminar_id" value="<?= $id ?>">
+                            <button type="submit" class="btn btn-eliminar">🗑 Eliminar</button>
+                        </form>
+                    </div>
+                </article>
+        <?php
             }
-            ?>
-        </div>
+        } else {
+            echo "<p>No hay productos disponibles.</p>";
+        }
+        ?>
+      </div>
 
-        <!-- Botón para agregar nuevo producto -->
-        <div style="text-align:center; margin: 20px;">
-            <a href="formulario.php" class="btn-agregar">➕ Agregar Producto</a>
-        </div>
+      <div style="text-align:center; margin: 20px;">
+        <a href="formulario.php" class="btn btn-agregar">➕ Agregar Producto</a>
+      </div>
     </section>
-</main>
+  </main>
 
-    <?php include("footer.php"); ?>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
-    <script src="js/main.js"></script>
+  <?php include("footer.php"); ?>
+
 </body>
 </html>
