@@ -17,7 +17,6 @@ if (isset($_GET['q'])) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -30,7 +29,8 @@ if (isset($_GET['q'])) {
 
     <form method="POST" action="procesar_producto.php" enctype="multipart/form-data">
         <label>Nombre:</label>
-        <input type="text" name="nombre" required>
+        <input type="text" name="nombre" id="nombre" required autocomplete="off">
+        <div id="sugerencias" class="sugerencias-box"></div><br><br>
 
         <label>Descripción:</label>
         <textarea name="descripcion" required></textarea>
