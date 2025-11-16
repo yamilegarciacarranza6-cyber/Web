@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 
-  <main class="login-page" role="main">
+  <main class="login-page">
     <div class="login-card" role="region" aria-label="Formulario de inicio de sesión">
       <div class="login-logo">🌮 Taquería El Buen Taco</div>
       <h2>Iniciar sesión</h2>
@@ -112,12 +112,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <form method="POST" action="login.php" novalidate>
         <div class="form-row">
           <label for="username">Usuario</label>
-          <input id="username" name="username" type="text" required autocomplete="username" />
+          <input id="username" name="username" type="text" required autocomplete="username">
         </div>
 
         <div class="form-row">
           <label for="password">Contraseña</label>
-          <input id="password" name="password" type="password" required autocomplete="current-password" />
+          <input id="password" name="password" type="password" required autocomplete="current-password">
         </div>
 
         <div class="form-row">
