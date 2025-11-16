@@ -1,49 +1,65 @@
 <?php
-session_start(); 
+// AJAX para sugerencias de platillos
+if (isset($_GET['q'])) {
+    $platillos = ['Taco al pastor', 'Taco de suadero', 'Taco de tripa', 'Gringa', 'Quesadilla', 'Torta de chorizo', 'Burrito', 'Taco de carnitas', 'Taco de barbacoa', 'Taco de lengua'];
+    $q = strtolower($_GET['q']);
+    $sugerencias = [];
 
+<<<<<<< HEAD
 if(!isset($_SESSION['user'])){ 
     header('Location: login.php');
     exit; 
+=======
+    foreach ($platillos as $p) {
+        if (strpos(strtolower($p), $q) !== false) {
+            $sugerencias[] = $p;
+        }
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($sugerencias);
+    exit;
+>>>>>>> 617ea2d5f59324f577e911f939d218cb77ccd3b5
 }
-
-include("database.php");
-
-$esAdmin = isset($_SESSION['user']) && $_SESSION['user']['rol'] === 'admin';
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Alta de Producto</title>
-  <link rel="stylesheet" href="formularios.css">
+    <meta charset="UTF-8">
+    <title>Formulario de Productos</title>
+    <link rel="stylesheet" href="formularios.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Agregar Producto</h1>
+    <h1>Formulario de Alta de Producto</h1>
 
-    <?php if (!$esAdmin): ?>
-    <div class="advertencia" style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; margin: 15px 0; border-radius: 8px; color: #856404; font-weight: bold;">
-        ⚠️ <strong>MODO SOLO LECTURA</strong> - No tienes permisos para crear productos
-    </div>
-    <?php endif; ?>
+    <form method="POST" action="procesar_producto.php" enctype="multipart/form-data">
+        <label>Nombre:</label>
+        <input type="text" name="nombre" id="nombre" required autocomplete="off">
+        <div id="sugerencias" class="sugerencias-box"></div><br><br>
 
+<<<<<<< HEAD
     <form id="formAltaProducto" class="validar-form" method="POST" action="procesar_producto.php" enctype="multipart/form-data">
       <div class="form-group">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" placeholder="Nombre del producto" <?php if (!$esAdmin) echo 'readonly'; ?>>
         <div id="mensaje-nombre" class="mensaje-ajax"></div>
       </div>
+=======
+        <label>Descripción:</label>
+        <textarea name="descripcion" required></textarea>
 
-      <div class="form-group">
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" placeholder="Descripción del producto" <?php if (!$esAdmin) echo 'readonly'; ?>></textarea>
-      </div>
+        <label>Precio:</label>
+        <input type="number" step="0.01" name="precio" required>
+>>>>>>> 617ea2d5f59324f577e911f939d218cb77ccd3b5
 
-      <div class="form-group">
-        <label for="precio">Precio:</label>
-        <input type="number" id="precio" step="0.01" name="precio" placeholder="0.00" <?php if (!$esAdmin) echo 'readonly'; ?>>
-      </div>
+        <label>Categoría:</label>
+        <input type="text" name="categoria" required>
 
+        <label>Imagen:</label>
+        <input type="file" name="imagen">
+
+<<<<<<< HEAD
       <div class="form-group">
         <label for="categoria">Categoría:</label>
         <input type="text" id="categoria" name="categoria" placeholder="Categoría" <?php if (!$esAdmin) echo 'readonly'; ?>>
@@ -57,9 +73,19 @@ $esAdmin = isset($_SESSION['user']) && $_SESSION['user']['rol'] === 'admin';
       <button type="submit" name="guardar" id="btnGuardar" <?php if (!$esAdmin) echo 'disabled'; ?>>
           <?php echo $esAdmin ? 'Guardar' : '❌ Sin permisos'; ?>
       </button>
+=======
+        <button type="submit" name="guardar">Guardar</button>
+>>>>>>> 617ea2d5f59324f577e911f939d218cb77ccd3b5
     </form>
-  </div>
+    <script>
+     document.getElementById('nombre').addEventListener('input', function() {
+        const query = this.value;
+        if (query.length < 2) {
+            document.getElementById('sugerencias').innerHTML = '';
+            return;
+        }
 
+<<<<<<< HEAD
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
   <script src="js/validaciones.js"></script>
@@ -149,5 +175,29 @@ $esAdmin = isset($_SESSION['user']) && $_SESSION['user']['rol'] === 'admin';
       cursor: not-allowed;
   }
   </style>
+=======
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', '?q=' + encodeURIComponent(query), true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const resultados = JSON.parse(xhr.responseText);
+                let html = '';
+                resultados.forEach(function(p) {
+                    html += '<div class="sugerencia-item">' + p + '</div>';
+                });
+                document.getElementById('sugerencias').innerHTML = html;
+
+                document.querySelectorAll('.sugerencia-item').forEach(function(item) {
+                    item.addEventListener('click', function() {
+                        document.getElementById('nombre').value = this.textContent;
+                        document.getElementById('sugerencias').innerHTML = '';
+                    });
+                });
+            }
+        };
+        xhr.send();
+     });
+    </script>
+>>>>>>> 617ea2d5f59324f577e911f939d218cb77ccd3b5
 </body>
 </html>
