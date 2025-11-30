@@ -1,5 +1,13 @@
-<?php include("database.php"); ?>
-<!--Conexion a la base de datos importada-->
+<?php include("database.php");
+require_once 'auth_check.php';
+
+
+if (!isset($_SESSION['user'])) {
+    header('Location: login.php');
+    exit;
+}
+ ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

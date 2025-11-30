@@ -55,7 +55,7 @@ if(!isset($_SESSION['user']) || $_SESSION['user']['rol'] !== 'admin'){ header("L
       let usuarioValido = false;
       let correoValido = false;
 
-      // Verificar nombre de usuario con AJAX
+      // Verificar nombre 
       $('#username').on('blur', function() {
           var username = $(this).val().trim();
           

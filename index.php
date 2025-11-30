@@ -1,5 +1,11 @@
 <?php
-session_start();
+require_once 'auth_check.php';
+
+
+if (!isset($_SESSION['user'])) {
+    header('Location: login.php');
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -40,6 +46,10 @@ session_start();
             
             <?php if ($_SESSION['user']['rol'] === 'admin'): ?>
                 <a href="admin/usuarios_listar.php">Administración</a> |
+            <?php endif; ?>
+
+            <?php if ($_SESSION['user']['rol'] === 'empleado'): ?>
+                <a href="admin/usuarios_listarempleado.php">Ver tablas</a> |
             <?php endif; ?>
             
             <a href="logout.php">Cerrar sesión</a>
