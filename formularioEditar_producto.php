@@ -1,9 +1,13 @@
 <?php
+session_start(); 
 include("database.php");
 $id = $_GET['id'];
 $sql = "SELECT * FROM productos WHERE id=$id";
 $res = $conn->query($sql);
 $producto = $res->fetch_assoc();
+
+$esAdmin = isset($_SESSION['user']) && $_SESSION['user']['rol'] === 'admin';
+
 ?>
 
 <!DOCTYPE html>
@@ -15,26 +19,38 @@ $producto = $res->fetch_assoc();
 </head>
 <body>
     <h1>Editar Producto</h1>
+    
+    
+    <?php if (!$esAdmin): ?>
+    <div class="advertencia" style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; margin: 15px 0; border-radius: 8px; color: #856404; font-weight: bold;">
+        ⚠️ <strong>MODO SOLO LECTURA</strong> - No tienes permisos para modificar productos
+    </div>
+    <?php endif; ?>
+ 
+    
     <form method="POST" action="procesar_producto.php" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<?php echo $producto['id']; ?>">
 
         <label>Nombre:</label>
-        <input type="text" name="nombre" value="<?php echo $producto['nombre']; ?>" required>
+        <input type="text" name="nombre" value="<?php echo $producto['nombre']; ?>" <?php if (!$esAdmin) echo 'readonly'; ?> required>
 
         <label>Descripción:</label>
-        <textarea name="descripcion" required><?php echo $producto['descripcion']; ?></textarea>
+        <textarea name="descripcion" <?php if (!$esAdmin) echo 'readonly'; ?> required><?php echo $producto['descripcion']; ?></textarea>
 
         <label>Precio:</label>
-        <input type="number" step="0.01" name="precio" value="<?php echo $producto['precio']; ?>" required>
+        <input type="number" step="0.01" name="precio" value="<?php echo $producto['precio']; ?>" <?php if (!$esAdmin) echo 'readonly'; ?> required>
 
         <label>Categoría:</label>
-        <input type="text" name="categoria" value="<?php echo $producto['categoria']; ?>" required>
+        <input type="text" name="categoria" value="<?php echo $producto['categoria']; ?>" <?php if (!$esAdmin) echo 'readonly'; ?> required>
 
         <label>Imagen:</label>
-        <input type="file" name="imagen">
+        <input type="file" name="imagen" <?php if (!$esAdmin) echo 'disabled'; ?>>
 
-        <button type="submit" name="actualizar">Actualizar</button>
+        <button type="submit" name="actualizar" <?php if (!$esAdmin) echo 'disabled'; ?>>
+            <?php echo $esAdmin ? 'Actualizar' : '❌ Sin permisos'; ?>
+        </button>
     </form>
+    
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
     <script src="js/validaciones.js"></script>

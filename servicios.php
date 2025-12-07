@@ -1,47 +1,51 @@
 <?php
-include("database.php"); // Conexión a la base de datos
+include("database.php");
+require_once 'auth_check.php';
+
+
+if (!isset($_SESSION['user'])) {
+    header('Location: login.php');
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Servicios - Taquería</title>
-    <link rel="stylesheet" href="estilos.css">
+  <meta charset="UTF-8">
+  <title>Servicios - Taquería</title>
+  <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
+  <?php include("header.php"); ?>
 
-    <?php include("header.php"); ?>
+  <main>
+    <h1>Servicios</h1>
+    <section id="servicios-container" class="contenedor">
+      <h2>Lista de Servicios</h2>
+      <?php
+      $sql = "SELECT * FROM servicios ORDER BY id DESC";
+      $res = $conn->query($sql);
+      if ($res && $res->num_rows > 0) {
+        while ($row = $res->fetch_assoc()) {
+          $id = (int)$row['id'];
+          $nombre = htmlspecialchars($row['nombre'], ENT_QUOTES, 'UTF-8');
+          $descripcion = htmlspecialchars($row['descripcion'], ENT_QUOTES, 'UTF-8');
+          $costo = number_format($row['costo'],2);
+          echo "<article class='servicio' data-id='{$id}'>";
+          echo "<h3 class='nombre'>{$nombre}</h3>";
+          echo "<p class='descripcion'>{$descripcion}</p>";
+          echo "<p class='precio'>\${$costo}</p>";
+          echo "</article>";
+        }
+      } else {
+        echo "<p>No hay servicios disponibles en este momento.</p>";
+      }
+      ?>
+    </section>
+  </main>
 
-    <main>
-        <h1>✨ Nuestros Servicios ✨</h1>
-
-        <section class="servicios-contenedor">
-            <h2>Lista de Servicios</h2>
-            <?php
-            $sql = "SELECT * FROM servicios";
-            $resultado = $conn->query($sql);
-
-            if ($resultado && $resultado->num_rows > 0) {
-                while ($row = $resultado->fetch_assoc()) {
-                    ?>
-                    <article class="servicio">
-                        <h3><?php echo htmlspecialchars($row['nombre']); ?></h3>
-                        <p><?php echo htmlspecialchars($row['descripcion']); ?></p>
-                        <p class="precio-servicio">$<?php echo number_format($row['costo'], 2); ?></p>
-                    </article>
-                    <?php
-                }
-            } else {
-                echo "<p>No hay servicios disponibles en este momento.</p>";
-            }
-            ?>
-        </section>
-    </main>
-    <!-- Footer incluido de forma concatenada -->
-    <?php include("footer.php"); ?>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
-    <script src="js/main.js"></script>
-
+  <?php include("footer.php"); ?>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
